@@ -7,16 +7,19 @@
 #define MAKEFIRETIME 5                               //time it takes to make the fire
 #define UPGRADEFIRETIME 5                            //time it takes to upgrade fire
 #define ADDLEAVESTIME 5                              //time it takes to add leaves to the fire
-#define FIREDISTANCETOPLAYER 1.5                      //distance to player that the fire object will be spawned
+#define FIREDISTANCETOPLAYER 2                        //distance to player that the fire object will be spawned
 #define CLASS_SMALLFIRE "FirePlace_burning_F"         //small fire classname
 #define CLASS_BIGFIRE "Campfire_burning_F"            //big fire classname
-#define ACTION_PIC_MAKEFIRE ""                        //"make fire" action picture path
-#define ACTION_PIC_ADDLEAVES ""                       //"add leaves to fire" action picture path
-#define ACTION_PIC_ADDFIREWOOD ""                     //"add firewood to fire" action picture path
-#define ACTION_PIC_INSPECTFIRE ""                     //"inspect fire" action pictre path
+#define ACTION_PIC_MAKEFIRE "pic\fire.paa"            //"make fire" action picture path
+#define ACTION_PIC_ADDLEAVES "pic\leaves.paa"         //"add leaves to fire" action picture path
+#define ACTION_PIC_ADDFIREWOOD "pic\wood.paa"         //"add firewood to fire" action picture path
+#define ACTION_PIC_INSPECTFIRE "pic\inspect.paa"      //"inspect fire" action pictre path
+#define ACTION_OFFSET [0,0,2.0]                       //interaction point offset from model center
+#define ACTION_DISTANCE 2.5                           //distance from which interaction point can be accessed
 #define BURNTIME_SMALLFIRE 60                        //time that a small fire will burn
 #define BURNTIME_BIGFIRE 90                          //time that a big fire will burn
 #define BURNTIME_LEAVES 20                           //time that adding leaves will add to total burntime
+
 
 
 #define ISPUBLIC true
@@ -41,6 +44,8 @@ GRAD_makeFire_fnc_onUIEH = {
   };
 
   if (_actionName == "FireInFlame") then {
+    if (_fire getVariable ["burnedOut", false]) exitWith {hint "Es ist komplett heruntergebrannt."; [_fire] spawn {_fire = _this select 0; waitUntil {inflamed (_fire)}; _fire inflame false}};
+
     [_fire] remoteExec ["GRAD_makeFire_fnc_initFireClient", 0, true];
     [_fire] remoteExec ["GRAD_makeFire_fnc_burnOutTimer", 2, false];
     _fire setVariable ["burnedOutTime", -1, ISPUBLIC];
@@ -113,7 +118,7 @@ if (_leavesAmount >= 2) exitWith {hint "Das Feuer geht aus, wenn ich noch mehr B
     [_fire, BURNTIME_LEAVES] remoteExec ["GRAD_makeFire_fnc_addBurnTime", 2, false];
     [_fire, true] remoteExec ["GRAD_makeFire_fnc_createSmoke", 0, true];
   };
-  [ADDLEAVESTIME, [_fire], _onComplete, {hint "abgebrochen"}, "Blätter auf das Feuer legen"] call ace_common_fnc_progressBar;
+  [ADDLEAVESTIME, [_fire], _onComplete, {hint "abgebrochen"}, "Blätter und Gras sammeln"] call ace_common_fnc_progressBar;
 };
 
 //CREATE SMOKE =================================================================
@@ -193,11 +198,11 @@ GRAD_makeFire_fnc_initFireClient = {
   //add ACE-actions
   [_fire,0,["ACE_MainActions","GRAD_inspectFire"]] call ace_interact_menu_fnc_removeActionFromObject;
 
-  _action = ["GRAD_addLeaves", "Add leaves", ACTION_PIC_ADDLEAVES, {[_this select 0] spawn GRAD_makeFire_fnc_addLeaves}, {true}] call ace_interact_menu_fnc_createAction;
+  _action = ["GRAD_addLeaves", "Add leaves and grass", ACTION_PIC_ADDLEAVES, {[_this select 0] spawn GRAD_makeFire_fnc_addLeaves}, {true}, {}, [], (getpos _fire) vectorAdd ACTION_OFFSET, ACTION_DISTANCE] call ace_interact_menu_fnc_createAction;
   [_fire, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;
 
   if (typeOf _fire == CLASS_SMALLFIRE) then {
-    _action = ["GRAD_upgradeFire", "Add firewood", ACTION_PIC_ADDFIREWOOD, {[_this select 0] spawn GRAD_makeFire_fnc_upgradeFire}, {true}] call ace_interact_menu_fnc_createAction;
+    _action = ["GRAD_upgradeFire", "Add firewood", ACTION_PIC_ADDFIREWOOD, {[_this select 0] spawn GRAD_makeFire_fnc_upgradeFire}, {true}, {}, [], (getpos _fire) vectorAdd ACTION_OFFSET, ACTION_DISTANCE] call ace_interact_menu_fnc_createAction;
     [_fire, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;
   };
 
@@ -215,7 +220,7 @@ GRAD_makeFire_fnc_burnedOut = {
   [_fire,0,["ACE_MainActions","GRAD_upgradeFire"]] call ace_interact_menu_fnc_removeActionFromObject;
   [_fire,0,["ACE_MainActions","GRAD_addLeaves"]] call ace_interact_menu_fnc_removeActionFromObject;
 
-  _action = ["GRAD_inspectFire", "Inspect fire", ACTION_PIC_INSPECTFIRE, {[_this select 0] spawn GRAD_makeFire_fnc_inspectFire}, {true}] call ace_interact_menu_fnc_createAction;
+  _action = ["GRAD_inspectFire", "Inspect fire", ACTION_PIC_INSPECTFIRE, {[_this select 0] spawn GRAD_makeFire_fnc_inspectFire}, {true}, {}, [], (getpos _fire) vectorAdd ACTION_OFFSET, ACTION_DISTANCE] call ace_interact_menu_fnc_createAction;
   [_fire, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;
 };
 
