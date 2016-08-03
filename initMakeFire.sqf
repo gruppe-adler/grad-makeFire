@@ -131,6 +131,8 @@ if (_leavesAmount >= 2) exitWith {hint "Das Feuer geht aus, wenn ich noch mehr B
 
     player playAction "medicStop";
 
+    if (!inflamed _fire) exitWith {hint "Das Feuer ist erloschen."};
+
     _leavesAmount = _fire getVariable ["leavesAmount", 100];
     if (_leavesAmount >= 2) exitWith {hint "Jemand war schneller als ich."};
 
