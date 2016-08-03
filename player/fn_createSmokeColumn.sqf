@@ -47,21 +47,83 @@ if(_type == "wood") then
 	{
 		_source1 setParticleCircle [0, [0, 0, 0]];
 		_source1 setParticleRandom [0, [0.25, 0.25, 0], [0.2, 0.2, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
-		_source1 setParticleParams [["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1], "", "Billboard", 1, 8, [0, 0, 0], [0, 0, 1.5], 0, 10, 7.9, 0.066, [1, 3, 6], [[0.5, 0.5, 0.5, 0.15], [0.75, 0.75, 0.75, 0.075], [1, 1, 1, 0]], [0.125], 1, 0, "", "", _object];
+		_source1 setParticleParams [
+			["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1],						//sprite
+			"",																																				//animationName
+			"Billboard",																															//type
+			1,																																				//timer period
+			11,																																				//lifeTime
+			[0, 0, 0.5],																															//position
+			[0, 0, 1.5],																															//move velocity
+			0,																																				//rotiation velocity
+			10,																																				//weight
+			7.9,																																			//volume
+			0.066,																																		//rubbing
+			[1, 3, 6],																																//size
+			[[0.5, 0.5, 0.5, 0.15],	[0.75, 0.75, 0.75, 0.075], [1, 1, 1, 0]],					//color
+			[0.125],																																	//animation speed
+			1,																																				//random direction period
+			0,																																				//random direction intensity
+			"",																																				//on timer script
+			"",																																				//before destroy script
+			_object																																		//attached to
+		];
 		_source1 setDropInterval 0.05;
 	};
+
 	if(_size == "medium") then
 	{
 		_source1 setParticleCircle [0, [0, 0, 0]];
 		_source1 setParticleRandom [0, [0.25, 0.25, 0], [0.2, 0.2, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
-		_source1 setParticleParams [["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1], "", "Billboard", 1, 8, [0, 0, 0], [0, 0, 2.5], 0, 10, 7.9, 0.066, [2, 6, 12], [[0.5, 0.5, 0.5, 0.3], [0.75, 0.75, 0.75, 0.15], [1, 1, 1, 0]], [0.125], 1, 0, "", "", _object];
+		_source1 setParticleParams [
+			["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1],
+			"",
+			"Billboard",
+			1,
+			13,
+			[0, 0, 0.5],
+			[0, 0, 1.5],
+			0,
+			10,
+			7.9,
+			0.066,
+			[1.5, 4.5, 9],
+			[[0.5, 0.5, 0.5, 0.3], [0.75, 0.75, 0.75, 0.15], [1, 1, 1, 0]],
+			[0.125],
+			1,
+			0,
+			"",
+			"",
+			_object
+		];
 		_source1 setDropInterval 0.1;
 	};
+
 	if(_size == "large") then
 	{
 		_source1 setParticleCircle [0, [0, 0, 0]];
 		_source1 setParticleRandom [0, [0.5, 0.5, 0], [0.2, 0.2, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
-		_source1 setParticleParams [["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1], "", "Billboard", 1, 8, [0, 0, 0], [0, 0, 4.5], 0, 10, 7.9, 0.5, [4, 12, 20], [[0.5, 0.5, 0.5, 0.5], [0.75, 0.75, 0.75, 0.25], [1, 1, 1, 0]], [0.125], 1, 0, "", "", _object];
+		_source1 setParticleParams [
+			["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1],
+			"",
+			"Billboard",
+			1,
+			14,
+			[0, 0, 0.6],
+			[0, 0, 2.2],
+			0,
+			10,
+			7.9,
+			0.066,
+			[2, 6, 12],
+			[[0.5, 0.5, 0.5, 0.5], [0.75, 0.75, 0.75, 0.25], [1, 1, 1, 0]],
+			[0.125],
+			1,
+			0,
+			"",
+			"",
+			_object
+		];
 		_source1 setDropInterval 0.1;
 	};
 
@@ -70,7 +132,27 @@ if(_type == "wood") then
 	{
 		_source1 setParticleCircle [0, [0, 0, 0]];
 		_source1 setParticleRandom [0, [0.5, 0.5, 0], [0.2, 0.2, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
-		_source1 setParticleParams [["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1], "", "Billboard", 1, 8, [0, 0, 0], [0, 0, 4.5], 0, 10, 7.9, 0.5, [4, 12, 20], [[0.5, 0.5, 0.5, 0.5], [0.75, 0.75, 0.75, 0.25], [1, 1, 1, 0]], [0.125], 1, 0, "", "", _object];
+		_source1 setParticleParams [
+			["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1],
+			"",
+			"Billboard",
+			1,
+			19,
+			[0, 0, 0.6],
+			[0, 0, 2.2],
+			0,
+			10,
+			7.9,
+			0.066,
+			[2, 6, 12],
+			[[0.5, 0.5, 0.5, 0.5], [0.75, 0.75, 0.75, 0.25], [1, 1, 1, 0]],
+			[0.125],
+			1,
+			0,
+			"",
+			"",
+			_object
+		];
 		_source1 setDropInterval 0.1;
 	};
 };
