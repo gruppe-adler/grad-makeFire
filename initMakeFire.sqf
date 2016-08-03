@@ -3,7 +3,7 @@
 *   needs to be executed on both server and clients
 */
 
-#define TREERADIUS 50                                 //distance player-->trees in order to be able to start fire
+#define TREERADIUS 40                                 //distance player-->trees in order to be able to start fire (this is not exact)
 #define MAKEFIRETIME 10                               //time it takes to make the fire
 #define UPGRADEFIRETIME 10                            //time it takes to upgrade fire
 #define ADDLEAVESTIME 10                              //time it takes to add leaves to the fire
@@ -14,7 +14,7 @@
 #define ACTION_PIC_ADDLEAVES "pic\leaves.paa"         //"add leaves to fire" action picture path
 #define ACTION_PIC_ADDFIREWOOD "pic\wood.paa"         //"add firewood to fire" action picture path
 #define ACTION_PIC_INSPECTFIRE "pic\inspect.paa"      //"inspect fire" action pictre path
-#define ACTION_OFFSET [0,0,0.35]                      //interaction point offset from model center
+#define ACTION_OFFSET [0,0,0.2]                      //interaction point offset from model center
 #define ACTION_DISTANCE 2.5                           //distance from which interaction point can be accessed
 #define BURNTIME_SMALLFIRE 60                         //time that a small fire will burn
 #define BURNTIME_BIGFIRE 90                           //time that a big fire will burn
@@ -44,15 +44,17 @@ GRAD_makeFire_fnc_onUIEH = {
     if (typeOf _fire != CLASS_SMALLFIRE && typeOf _fire != CLASS_BIGFIRE) exitWith {};
     [_fire] remoteExec ["GRAD_makeFire_fnc_burnedOut", 0, true];
     _fire setVariable ["burnedOutTime", serverTime, ISPUBLIC];
+    false;
   };
 
   if (_actionName == "FireInFlame") then {
     if (typeOf _fire != CLASS_SMALLFIRE && typeOf _fire != CLASS_BIGFIRE) exitWith {};
-    if (_fire getVariable ["burnedOut", false]) exitWith {hint "Es ist komplett heruntergebrannt."; [_fire] spawn {_fire = _this select 0; waitUntil {inflamed (_fire)}; _fire inflame false}};
+    if (_fire getVariable ["burnedOut", false]) exitWith {hint "Es ist komplett heruntergebrannt."; true};
 
     [_fire] remoteExec ["GRAD_makeFire_fnc_initFireClient", 0, true];
     [_fire] remoteExec ["GRAD_makeFire_fnc_burnOutTimer", 2, false];
     _fire setVariable ["burnedOutTime", -1, ISPUBLIC];
+    false;
   };
 };
 
@@ -221,7 +223,7 @@ GRAD_makeFire_fnc_initFireClient = {
   [_fire, true] remoteExec ["GRAD_makeFire_fnc_createSmoke", 0, true];
 
   //add ACE-actions
-  [_fire,0,["ACE_MainActions","GRAD_inspectFire"]] call ace_interact_menu_fnc_removeActionFromObject;
+  [_fire,0,["GRAD_makeFire_mainAction","GRAD_makeFire_inspectFire"]] call ace_interact_menu_fnc_removeActionFromObject;
 
   _action = ["GRAD_makeFire_mainAction", "Interactions", "", {}, {true}, {}, [], ACTION_OFFSET, ACTION_DISTANCE] call ace_interact_menu_fnc_createAction;
   [_fire, 0, [], _action] call ace_interact_menu_fnc_addActionToObject;
