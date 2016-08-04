@@ -1,4 +1,4 @@
-/*  Initiates GRAD fire making system
+/*  Initializes GRAD fire making system
 *
 *   needs to be executed on both server and clients
 */
