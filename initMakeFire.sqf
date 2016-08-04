@@ -3,6 +3,11 @@
 *   needs to be executed on both server and clients
 */
 
+//prevent executing this twice on non-dedicated
+if (!isNil "makeFireInitialized") exitWith {};
+makeFireInitialized = true;
+
+
 #define TREERADIUS 40                                 //distance player-->trees in order to be able to start fire (this is not exact)
 #define MAKEFIRETIME 10                               //time it takes to make the fire
 #define UPGRADEFIRETIME 10                            //time it takes to upgrade fire
@@ -19,7 +24,6 @@
 #define BURNTIME_SMALLFIRE 60                         //time that a small fire will burn
 #define BURNTIME_BIGFIRE 90                           //time that a big fire will burn
 #define BURNTIME_LEAVES 20                            //time that adding leaves will add to total burntime
-
 
 
 #define ISPUBLIC true
