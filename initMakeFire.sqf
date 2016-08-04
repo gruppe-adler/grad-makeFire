@@ -7,28 +7,28 @@
 #define ISPUBLIC true
 #define FILEPATH GRAD_makeFire_filePath
 
-//get file paths in case this is included as a dependency
-_mcd_fnc_isMissionFileName = {
-  params ["_string"];
-  _splitArray = _string splitString ".";
-  worldName in _splitArray;
+GRAD_core_getFileDirectory = {
+    params ['_filePath', '_worldname'];
+
+    _isMissionFileName = {
+        _splitArray = _this splitString ".";
+        (count _splitArray == 2) && (_worldname in _splitArray);
+    };
+
+    _filePathArray = _filePath splitString "\";
+    _start = 0;
+    {
+        if (_x call _isMissionFileName) exitWith {
+            _start = _forEachIndex + 1;
+        };
+    } forEach _filePathArray;
+
+    _directoryCount = (count _filePathArray) - 1 - _start;
+    _filePathArray = _filePathArray select [_start, _directoryCount];
+    _filePathArray joinString "\";
 };
 
-//find mission file name in script filepath
-_filePath = __FILE__;
-_filePathArray = _filePath splitString "\";
-_i=0;
-for [{_i=0}, {_i<(count _filePathArray)-1}, {_i=_i+1}] do {
-  if ([_filePathArray select _i] call _mcd_fnc_isMissionFileName) exitWith {};
-};
-
-//construct script path relative to mission folder (_i is reused here)
-_scriptPathArray = [];
-for [{_i=_i+1}, {_i<(count _filePathArray)-1}, {_i=_i+1}] do {
-  _scriptPathArray pushBack (_filePathArray select _i);
-};
-if (count _scriptPathArray > 0) then {_scriptPathArray pushBack ""};
-FILEPATH = _scriptPathArray joinString "\";
+FILEPATH = ([__FILE__, worldname] call GRAD_core_getFileDirectory) + "\";
 
 
 //CONFIG VALUES (YOU CAN CHANGE THESE!) ========================================
