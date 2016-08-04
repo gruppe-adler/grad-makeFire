@@ -28,7 +28,7 @@ for [{_i=_i+1}, {_i<(count _filePathArray)-1}, {_i=_i+1}] do {
   _scriptPathArray pushBack (_filePathArray select _i);
 };
 if (count _scriptPathArray > 0) then {_scriptPathArray pushBack ""};
-GRAD_makeFire_filePath = _scriptPathArray joinString "\";
+FILEPATH = _scriptPathArray joinString "\";
 
 
 //CONFIG VALUES (YOU CAN CHANGE THESE!) ========================================
