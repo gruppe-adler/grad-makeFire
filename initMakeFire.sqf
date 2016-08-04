@@ -3,36 +3,64 @@
 *   needs to be executed on both server and clients
 */
 
+
+#define ISPUBLIC true
+#define FILEPATH GRAD_makeFire_filePath
+
+//get file paths in case this is included as a dependency
+_mcd_fnc_isMissionFileName = {
+  params ["_string"];
+  _splitArray = _string splitString ".";
+  worldName in _splitArray;
+};
+
+//find mission file name in script filepath
+_filePath = __FILE__;
+_filePathArray = _filePath splitString "\";
+_i=0;
+for [{_i=0}, {_i<(count _filePathArray)-1}, {_i=_i+1}] do {
+  if ([_filePathArray select _i] call _mcd_fnc_isMissionFileName) exitWith {};
+};
+
+//construct script path relative to mission folder (_i is reused here)
+_scriptPathArray = [];
+for [{_i=_i+1}, {_i<(count _filePathArray)-1}, {_i=_i+1}] do {
+  _scriptPathArray pushBack (_filePathArray select _i);
+};
+if (count _scriptPathArray > 0) then {_scriptPathArray pushBack ""};
+GRAD_makeFire_filePath = _scriptPathArray joinString "\";
+
+
+//CONFIG VALUES (YOU CAN CHANGE THESE!) ========================================
+#define TREERADIUS 40                                                           //distance player-->trees in order to be able to start fire (this is not exact)
+#define MAKEFIRETIME 10                                                         //time it takes to make the fire
+#define UPGRADEFIRETIME 10                                                      //time it takes to upgrade fire
+#define ADDLEAVESTIME 10                                                        //time it takes to add leaves to the fire
+#define FIREDISTANCETOPLAYER 2                                                  //distance to player that the fire object will be spawned
+#define CLASS_SMALLFIRE "FirePlace_burning_F"                                   //small fire classname
+#define CLASS_BIGFIRE "Campfire_burning_F"                                      //big fire classname
+#define ACTION_PIC_MAKEFIRE (FILEPATH + "pic\fire.paa")                         //"make fire" action picture path
+#define ACTION_PIC_ADDLEAVES (FILEPATH + "pic\leaves.paa")                      //"add leaves to fire" action picture path
+#define ACTION_PIC_ADDFIREWOOD (FILEPATH + "pic\wood.paa")                      //"add firewood to fire" action picture path
+#define ACTION_PIC_INSPECTFIRE (FILEPATH + "pic\inspect.paa")                   //"inspect fire" action pictre path
+#define ACTION_OFFSET [0,0,0.2]                                                 //interaction point offset from model center
+#define ACTION_DISTANCE 2.5                                                     //distance from which interaction point can be accessed
+#define BURNTIME_SMALLFIRE 60                                                   //time that a small fire will burn
+#define BURNTIME_BIGFIRE 90                                                     //time that a big fire will burn
+#define BURNTIME_LEAVES 20                                                      //time that adding leaves will add to total burntime
+//==============================================================================
+
+
 //prevent executing this twice on non-dedicated
 if (!isNil "makeFireInitialized") exitWith {};
 makeFireInitialized = true;
 
-
-#define TREERADIUS 40                                 //distance player-->trees in order to be able to start fire (this is not exact)
-#define MAKEFIRETIME 10                               //time it takes to make the fire
-#define UPGRADEFIRETIME 10                            //time it takes to upgrade fire
-#define ADDLEAVESTIME 10                              //time it takes to add leaves to the fire
-#define FIREDISTANCETOPLAYER 2                        //distance to player that the fire object will be spawned
-#define CLASS_SMALLFIRE "FirePlace_burning_F"         //small fire classname
-#define CLASS_BIGFIRE "Campfire_burning_F"            //big fire classname
-#define ACTION_PIC_MAKEFIRE "pic\fire.paa"            //"make fire" action picture path
-#define ACTION_PIC_ADDLEAVES "pic\leaves.paa"         //"add leaves to fire" action picture path
-#define ACTION_PIC_ADDFIREWOOD "pic\wood.paa"         //"add firewood to fire" action picture path
-#define ACTION_PIC_INSPECTFIRE "pic\inspect.paa"      //"inspect fire" action pictre path
-#define ACTION_OFFSET [0,0,0.2]                      //interaction point offset from model center
-#define ACTION_DISTANCE 2.5                           //distance from which interaction point can be accessed
-#define BURNTIME_SMALLFIRE 60                         //time that a small fire will burn
-#define BURNTIME_BIGFIRE 90                           //time that a big fire will burn
-#define BURNTIME_LEAVES 20                            //time that adding leaves will add to total burntime
-
-
-#define ISPUBLIC true
-//ADD UI EH ====================================================================
+//add UI EH
 if (hasInterface) then {
   inGameUISetEventHandler ["Action", "_this call GRAD_makeFire_fnc_onUIEH"];
 };
 
-//ADD ACE-SELFACTION ===========================================================
+//add ACE-Selfinteraction
 if (hasInterface) then {
   _action_makeFire = ["GRAD_makeFire", "Make fire", ACTION_PIC_MAKEFIRE, {[] spawn GRAD_makeFire_fnc_makeFire}, {true}] call ace_interact_menu_fnc_createAction;
   [ player, 1, ["ACE_SelfActions"], _action_makeFire] call ace_interact_menu_fnc_addActionToObject;
@@ -63,7 +91,7 @@ GRAD_makeFire_fnc_onUIEH = {
 };
 
 //CREATE SMOKE (local) =========================================================
-C9J_fnc_createSmokeColumn = compile preprocessFileLineNumbers "player\fn_createSmokeColumn.sqf";
+C9J_fnc_createSmokeColumn = compile preprocessFileLineNumbers (GRAD_makeFire_filePath + "fn_createSmokeColumn.sqf");
 
 //Killzone Kid's CHECK UNIT IN HOUSE ===========================================
 KK_fnc_inHouse = {
