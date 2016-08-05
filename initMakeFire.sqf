@@ -25,10 +25,11 @@ GRAD_core_getFileDirectory = {
 
     _directoryCount = (count _filePathArray) - 1 - _start;
     _filePathArray = _filePathArray select [_start, _directoryCount];
+    if (count _filePathArray > 0) then {_filePathArray pushBack ""};
     _filePathArray joinString "\";
 };
 
-FILEPATH = ([__FILE__, worldname] call GRAD_core_getFileDirectory) + "\";
+FILEPATH = [__FILE__, worldname] call GRAD_core_getFileDirectory;
 
 
 //CONFIG VALUES (YOU CAN CHANGE THESE!) ========================================
