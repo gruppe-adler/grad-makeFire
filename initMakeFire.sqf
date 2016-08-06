@@ -41,18 +41,20 @@ FILEPATH = [__FILE__, worldname] call GRAD_core_getFileDirectory;
   #define MAKEFIRE_PLAYERDIST 2                                                 //distance to player that the fire object will be spawned
   #define MAKEFIRE_CLASS_SMALL "FirePlace_burning_F"                            //small fire classname
   #define MAKEFIRE_CLASS_BIG "Campfire_burning_F"                               //big fire classname
-  #define MAKEFIRE_ACTPIC_BUILD (FILEPATH + "pic\fire.paa")                     //"make fire" action picture path
-  #define MAKEFIRE_ACTPIC_ADDLVS (FILEPATH + "pic\leaves.paa")                  //"add leaves to fire" action picture path
-  #define MAKEFIRE_ACTPIC_ADDWD (FILEPATH + "pic\wood.paa")                     //"add firewood to fire" action picture path
-  #define MAKEFIRE_ACTPIC_INSPECT (FILEPATH + "pic\inspect.paa")                //"inspect fire" action pictre path
   #define MAKEFIRE_ACTOFFSET [0,0,0.2]                                          //interaction point offset from model center
   #define MAKEFIRE_ACTDIST 2.5                                                  //distance from which interaction point can be accessed
   #define MAKEFIRE_BURNTIMESMALL 60                                             //time that a small fire will burn
   #define MAKEFIRE_BURNTIMEBIG 90                                               //time that a big fire will burn
   #define MAKEFIRE_BURNTIMELVS 20                                               //time that adding leaves will add to total burntime
 #endif
-//==============================================================================
 
+#ifndef MAKEFIRE_ACTPIC_BUILD
+  #define MAKEFIRE_ACTPIC_BUILD (FILEPATH + "pic\fire.paa")                     //"make fire" action picture path
+  #define MAKEFIRE_ACTPIC_ADDLVS (FILEPATH + "pic\leaves.paa")                  //"add leaves to fire" action picture path
+  #define MAKEFIRE_ACTPIC_ADDWD (FILEPATH + "pic\wood.paa")                     //"add firewood to fire" action picture path
+  #define MAKEFIRE_ACTPIC_INSPECT (FILEPATH + "pic\inspect.paa")                //"inspect fire" action pictre path
+#endif
+//==============================================================================
 
 //prevent executing this twice on non-dedicated
 if (!isNil "GRAD_makeFire_initialized") exitWith {};
