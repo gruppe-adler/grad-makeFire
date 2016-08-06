@@ -65,7 +65,7 @@ if (hasInterface) then {
 
 //add ACE-Selfinteraction
 if (hasInterface) then {
-  _action_makeFire = ["GRAD_makeFire", "Make fire", MAKEFIRE_ACTPIC_BUILD, {[] spawn GRAD_makeFire_fnc_makeFire}, {true}] call ace_interact_menu_fnc_createAction;
+  _action_makeFire = ["GRAD_makeFire", "Make Fire", MAKEFIRE_ACTPIC_BUILD, {[] spawn GRAD_makeFire_fnc_makeFire}, {true}] call ace_interact_menu_fnc_createAction;
   [ player, 1, ["ACE_SelfActions"], _action_makeFire] call ace_interact_menu_fnc_addActionToObject;
 };
 
@@ -265,11 +265,11 @@ GRAD_makeFire_fnc_initFireClient = {
   _action = ["GRAD_makeFire_mainAction", "Interactions", "", {}, {true}, {}, [], MAKEFIRE_ACTOFFSET, MAKEFIRE_ACTDIST] call ace_interact_menu_fnc_createAction;
   [_fire, 0, [], _action] call ace_interact_menu_fnc_addActionToObject;
 
-  _action = ["GRAD_makeFire_addLeaves", "Add leaves and grass", MAKEFIRE_ACTPIC_ADDLVS, {[_this select 0] spawn GRAD_makeFire_fnc_addLeaves}, {true}] call ace_interact_menu_fnc_createAction;
+  _action = ["GRAD_makeFire_addLeaves", "Add Leaves and Grass", MAKEFIRE_ACTPIC_ADDLVS, {[_this select 0] spawn GRAD_makeFire_fnc_addLeaves}, {true}] call ace_interact_menu_fnc_createAction;
   [_fire, 0, ["GRAD_makeFire_mainAction"], _action] call ace_interact_menu_fnc_addActionToObject;
 
   if (typeOf _fire == MAKEFIRE_CLASS_SMALL) then {
-    _action = ["GRAD_makeFire_upgradeFire", "Add firewood", MAKEFIRE_ACTPIC_ADDWD, {[_this select 0] spawn GRAD_makeFire_fnc_upgradeFire}, {true}] call ace_interact_menu_fnc_createAction;
+    _action = ["GRAD_makeFire_upgradeFire", "Add Firewood", MAKEFIRE_ACTPIC_ADDWD, {[_this select 0] spawn GRAD_makeFire_fnc_upgradeFire}, {true}] call ace_interact_menu_fnc_createAction;
     [_fire, 0, ["GRAD_makeFire_mainAction"], _action] call ace_interact_menu_fnc_addActionToObject;
   };
 
@@ -290,7 +290,7 @@ GRAD_makeFire_fnc_burnedOut = {
   _action = ["GRAD_makeFire_mainAction", "Interactions", "", {}, {true}, {}, [], MAKEFIRE_ACTOFFSET, MAKEFIRE_ACTDIST] call ace_interact_menu_fnc_createAction;
   [_fire, 0, [], _action] call ace_interact_menu_fnc_addActionToObject;
 
-  _action = ["GRAD_makeFire_inspectFire", "Inspect fire", MAKEFIRE_ACTPIC_INSPECT, {[_this select 0] spawn GRAD_makeFire_fnc_inspectFire}, {true}] call ace_interact_menu_fnc_createAction;
+  _action = ["GRAD_makeFire_inspectFire", "Inspect Fire", MAKEFIRE_ACTPIC_INSPECT, {[_this select 0] spawn GRAD_makeFire_fnc_inspectFire}, {true}] call ace_interact_menu_fnc_createAction;
   [_fire, 0, ["GRAD_makeFire_mainAction"], _action] call ace_interact_menu_fnc_addActionToObject;
 };
 
