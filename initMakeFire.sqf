@@ -32,6 +32,7 @@ GRAD_core_getFileDirectory = {
 FILEPATH = [__FILE__, worldname] call GRAD_core_getFileDirectory;
 
 
+
 //CONFIG VALUES (YOU CAN CHANGE THESE!) ========================================
 #ifndef MAKEFIRE_TREERADIUS
   #define MAKEFIRE_TREERADIUS 40                                                //distance player-->trees in order to be able to start fire (this is not exact)
@@ -97,7 +98,9 @@ GRAD_makeFire_fnc_onUIEH = {
 };
 
 //CREATE SMOKE (local) =========================================================
-C9J_fnc_createSmokeColumn = compile preprocessFileLineNumbers (GRAD_makeFire_filePath + "fn_createSmokeColumn.sqf");
+if (isNil "C9J_fnc_createSmokeColumn") then {
+  C9J_fnc_createSmokeColumn = compile preprocessFileLineNumbers (GRAD_makeFire_filePath + "fn_createSmokeColumn.sqf");
+};
 
 //Killzone Kid's CHECK UNIT IN HOUSE ===========================================
 KK_fnc_inHouse = {
