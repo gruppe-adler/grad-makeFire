@@ -58,13 +58,14 @@ FILEPATH = [__FILE__, worldname] call GRAD_core_getFileDirectory;
 if (!isNil "GRAD_makeFire_initialized") exitWith {};
 GRAD_makeFire_initialized = true;
 
-//add UI EH
-if (hasInterface) then {
-  inGameUISetEventHandler ["Action", "_this call GRAD_makeFire_fnc_onUIEH"];
-};
+[] spawn {
+  if (!hasInterface) exitWith {};
+  waitUntil {!isNull player};
 
-//add ACE-Selfinteraction
-if (hasInterface) then {
+  //add UI EH
+  inGameUISetEventHandler ["Action", "_this call GRAD_makeFire_fnc_onUIEH"];
+
+  //add ACE-Selfinteraction
   _action_makeFire = ["GRAD_makeFire", "Make Fire", MAKEFIRE_ACTPIC_BUILD, {[] spawn GRAD_makeFire_fnc_makeFire}, {true}] call ace_interact_menu_fnc_createAction;
   [ player, 1, ["ACE_SelfActions"], _action_makeFire] call ace_interact_menu_fnc_addActionToObject;
 };
