@@ -36,6 +36,7 @@ FILEPATH = [__FILE__, worldname] call GRAD_core_getFileDirectory;
 //CONFIG VALUES (YOU CAN CHANGE THESE!) ========================================
 #ifndef MAKEFIRE_TREERADIUS
   #define MAKEFIRE_TREERADIUS 40                                                //distance player-->trees in order to be able to start fire (this is not exact)
+  #define MAKEFIRE_CANBUILD true                                                //condition to be able to build fire
   #define MAKEFIRE_BUILDTIME 10                                                 //time it takes to make the fire
   #define MAKEFIRE_UPGRADETIME 10                                               //time it takes to upgrade fire
   #define MAKEFIRE_ADDLVSTIME 10                                                //time it takes to add leaves to the fire
@@ -68,9 +69,11 @@ GRAD_makeFire_initialized = true;
   //add UI EH
   inGameUISetEventHandler ["Action", "_this call GRAD_makeFire_fnc_onUIEH"];
 
-  //add ACE-Selfinteraction
-  _action_makeFire = ["GRAD_makeFire", "Make Fire", MAKEFIRE_ACTPIC_BUILD, {[] spawn GRAD_makeFire_fnc_makeFire}, {true}] call ace_interact_menu_fnc_createAction;
-  [ player, 1, ["ACE_SelfActions"], _action_makeFire] call ace_interact_menu_fnc_addActionToObject;
+  if (MAKEFIRE_CANBUILD) then {
+    //add ACE-Selfinteraction
+    _action_makeFire = ["GRAD_makeFire", "Make Fire", MAKEFIRE_ACTPIC_BUILD, {[] spawn GRAD_makeFire_fnc_makeFire}, {true}] call ace_interact_menu_fnc_createAction;
+    [ player, 1, ["ACE_SelfActions"], _action_makeFire] call ace_interact_menu_fnc_addActionToObject;
+  };
 };
 
 
