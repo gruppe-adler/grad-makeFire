@@ -1,21 +1,37 @@
 //check position
-if (isOnRoad player) exitWith {hint "Ich kann auf der Straße kein Feuer machen."};
-if (surfaceIsWater getPos player) exitWith {hint "Ich kann im Wasser kein Feuer machen."};
-if ([player] call KK_fnc_inHouse) exitWith {hint "Ich kann in einem Gebäude kein Feuer machen."};
+_canBuild = switch (true) do {
+    case (isOnRoad player): {
+        hint "I can't make a fire on the road.";
+        false
+    };
 
-//check if trees nearby
-_treesNearby = (((selectBestPlaces [getpos player, GRAD_makeFire_treeRadius, "trees", 0.5, 1]) select 0) select 1) > 0.2;
-if (!_treesNearby) exitWith {hint "Es ist kein Feuerholz in der Nähe."};
+    case (surfaceIsWater getPos player): {
+        hint "It's too wet. I can't make a fire here.";
+        false
+    };
 
-//progressbar
-_onComplete = {
-    _params = _this select 0;
-    _firePos = player getRelPos [GRAD_makeFire_playerDist, 0];
+    case ([player] call KK_fnc_inHouse): {
+        hint "I can't make a fire inside a building.";
+        false
+    };
 
-    player playAction "medicStop";
+    case (!([player] call GRAD_makeFire_fnc_isNearTrees)): {
+        hint "I can't find any wood here.";
+        false
+    };
 
-    [_firePos] remoteExec ["GRAD_makeFire_fnc_spawnFire", 2, false];
+    default {
+        true
+    };
 };
 
-player playAction "medicStart";
-[GRAD_makeFire_buildTime, [], _onComplete, {player playAction "medicStop";}, "Feuer machen"] call ace_common_fnc_progressBar;
+//build fire
+if (_canBuild) then {
+    player playAction "medicStart";
+
+    _onComplete = {
+        player playAction "medicStop";
+        [player getRelPos [GRAD_makeFire_playerDist, 0]] remoteExec ["GRAD_makeFire_fnc_spawnFire", 2, false];
+    };
+    [GRAD_makeFire_buildTime, [], _onComplete, {player playAction "medicStop";}, "Building fire..."] call ace_common_fnc_progressBar;
+};

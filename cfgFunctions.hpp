@@ -7,13 +7,15 @@ class GRAD_makeFire {
         file = MODULES_DIRECTORY\grad-makeFire\functions;
 
         class addBurnTime {};
+        class addInteractions {};
         class addLeaves {};
-        class burnedOut {};
+        class allowBuilding {};
         class burnOutTimer {};
         class createSmoke {};
         class getModuleRoot {};
-        class initFireClient {};
+        class initModule {postInit = 1;};
         class inspectFire {};
+        class isNearTrees {};
         class makeFire {};
         class onUIEH {};
         class spawnFire {};
