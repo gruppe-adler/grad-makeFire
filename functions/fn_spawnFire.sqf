@@ -4,14 +4,14 @@ private ["_requestedPos", "_fire", "_burnTime", "_class", "_previousLeaves"];
 if (typeName (_this select 0) == "OBJECT") then {
     _fire = _this select 0;
     _requestedPos = getPos _fire;
-    _burnTime = MAKEFIRE_BURNTIMEBIG;
-    _class = MAKEFIRE_CLASS_BIG;
+    _burnTime = GRAD_makeFire_burntimeBig;
+    _class = GRAD_makeFire_classBig;
     _previousLeaves = _fire getVariable ["leavesAmount", 0];
     deleteVehicle _fire;
 } else {
     _requestedPos = _this select 0;
-    _burnTime = MAKEFIRE_BURNTIMESMALL;
-    _class = MAKEFIRE_CLASS_SMALL;
+    _burnTime = GRAD_makeFire_burntimeSmall;
+    _class = GRAD_makeFire_classSmall;
     _previousLeaves = 0;
 };
 

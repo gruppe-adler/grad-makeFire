@@ -11,6 +11,7 @@ class GRAD_makeFire {
         class burnedOut {};
         class burnOutTimer {};
         class createSmoke {};
+        class getModuleRoot {};
         class initFireClient {};
         class inspectFire {};
         class makeFire {};

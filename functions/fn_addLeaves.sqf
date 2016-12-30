@@ -14,9 +14,9 @@ _onComplete = {
     if (_leavesAmount >= 2) exitWith {hint "Jemand war schneller als ich."};
 
     _fire setVariable ["leavesAmount", (_fire getVariable ["leavesAmount", 0]) + 1, ISPUBLIC];
-    [_fire, MAKEFIRE_BURNTIMELVS] remoteExec ["GRAD_makeFire_fnc_addBurnTime", 2, false];
+    [_fire, GRAD_makeFire_burntimeLeaves] remoteExec ["GRAD_makeFire_fnc_addBurnTime", 2, false];
     [_fire, true] remoteExec ["GRAD_makeFire_fnc_createSmoke", 0, true];
 };
 
 player playAction "medicStart";
-[MAKEFIRE_ADDLVSTIME, [_fire], _onComplete, {player playAction "medicStop";}, "Blätter und Gras sammeln"] call ace_common_fnc_progressBar;
+[GRAD_makeFire_addLeavesTime, [_fire], _onComplete, {player playAction "medicStop";}, "Blätter und Gras sammeln"] call ace_common_fnc_progressBar;

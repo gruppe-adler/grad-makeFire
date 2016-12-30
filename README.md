@@ -1,4 +1,4 @@
-# scripts_GRAD_makeFire
+# grad-makeFire
 GRAD fire making system (originally for Rattrap)
 
 * Enables you to:

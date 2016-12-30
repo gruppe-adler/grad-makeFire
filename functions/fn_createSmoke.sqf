@@ -14,7 +14,7 @@ if (!_isBurning) exitWith {};
 
 _leavesAmount = _fire getVariable ["leavesAmount", 0];
 //big fire
-if (typeOf _fire == MAKEFIRE_CLASS_BIG) then {
+if (typeOf _fire == GRAD_makeFire_classBig) then {
     switch (_leavesAmount) do {
         case 0: {};
         case 1: {_particleSources = [_fire, "wood", "large"] call C9J_fnc_createSmokeColumn};

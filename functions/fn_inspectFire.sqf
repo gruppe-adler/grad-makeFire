@@ -10,7 +10,7 @@ if (_fire getVariable ["burnedOut", false]) then {
 //randomize result
 _randomFactor = ((random 120) - 60);
 //big fire is hot longer
-_fireSizeFactor = if (typeOf _fire == MAKEFIRE_CLASS_BIG) then {-60} else {0};
+_fireSizeFactor = if (typeOf _fire == GRAD_makeFire_classBig) then {-60} else {0};
 //get time when it was extinguished
 _timeSince = serverTime - (_fire getVariable ["burnedOutTime", 0]);
 _timeSince = _timeSince + _randomFactor + _fireSizeFactor;

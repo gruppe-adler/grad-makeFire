@@ -13,4 +13,4 @@ _onComplete = {
 };
 
 player playAction "medicStart";
-[MAKEFIRE_UPGRADETIME, [_fire], _onComplete, {player playAction "medicStop";}, "Feuerholz sammeln"] call ace_common_fnc_progressBar;
+[GRAD_makeFire_upgradeTime, [_fire], _onComplete, {player playAction "medicStop";}, "Feuerholz sammeln"] call ace_common_fnc_progressBar;

@@ -4,13 +4,13 @@ if (surfaceIsWater getPos player) exitWith {hint "Ich kann im Wasser kein Feuer 
 if ([player] call KK_fnc_inHouse) exitWith {hint "Ich kann in einem Gebäude kein Feuer machen."};
 
 //check if trees nearby
-_treesNearby = (((selectBestPlaces [getpos player, MAKEFIRE_TREERADIUS, "trees", 0.5, 1]) select 0) select 1) > 0.2;
+_treesNearby = (((selectBestPlaces [getpos player, GRAD_makeFire_treeRadius, "trees", 0.5, 1]) select 0) select 1) > 0.2;
 if (!_treesNearby) exitWith {hint "Es ist kein Feuerholz in der Nähe."};
 
 //progressbar
 _onComplete = {
     _params = _this select 0;
-    _firePos = player getRelPos [MAKEFIRE_PLAYERDIST, 0];
+    _firePos = player getRelPos [GRAD_makeFire_playerDist, 0];
 
     player playAction "medicStop";
 
@@ -18,4 +18,4 @@ _onComplete = {
 };
 
 player playAction "medicStart";
-[MAKEFIRE_BUILDTIME, [], _onComplete, {player playAction "medicStop";}, "Feuer machen"] call ace_common_fnc_progressBar;
+[GRAD_makeFire_buildTime, [], _onComplete, {player playAction "medicStop";}, "Feuer machen"] call ace_common_fnc_progressBar;
